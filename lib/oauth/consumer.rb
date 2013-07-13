@@ -192,6 +192,10 @@ module OAuth
     # Creates a request and parses the result as url_encoded. This is used internally for the RequestToken and AccessToken requests.
     def token_request(http_method, path, token = nil, request_options = {}, *arguments)
       response = request(http_method, path, token, request_options, *arguments)
+      puts response.inspect
+      puts "Header: #{response.header}"
+      puts "Body: #{response.body}"
+
       case response.code.to_i
 
       when (200..299)
@@ -215,6 +219,7 @@ module OAuth
       when (400..499)
         raise OAuth::Unauthorized, response
       else
+        puts response.inspect
         response.error!
       end
     end
